@@ -1,262 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我 - 史锦浩</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于我 - 史锦浩</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color .3s ease, color .3s ease;
+    cursor: none;
+}
 
-        :root {
-            --body-bg: #e8f4f8;
-            --container-bg: #ffffff;
-            --text-color: #333;
-            --h1-color: #2c3e50;
-            --h2-color: #3498db;
-            --border-color: #3498db;
-            --skill-bg: #e3f2fd;
-            --skill-text: #2196f3;
-            --footer-text: #7f8c8d;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --toggle-bg: #e0e0e0;
-            --toggle-circle: #ffffff;
-            --toggle-active-bg: #3498db;
-        }
+/* ===== 主题变量 ===== */
+:root {
+    --body-bg: #e8f4f8;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --h1-color: #2c3e50;
+    --h2-color: #3498db;
+    --border-color: #3498db;
+    --skill-bg: #e3f2fd;
+    --skill-text: #2196f3;
+    --footer-text: #7f8c8d;
+    --shadow-color: rgba(0,0,0,.1);
+    --toggle-bg: #e0e0e0;
+    --toggle-active-bg: #3498db;
+    --cursor-main: #00a1d6;
+}
 
-        [data-theme="dark"] {
-            --body-bg: #1a202c;
-            --container-bg: #2d3748;
-            --text-color: #e2e8f0;
-            --h1-color: #a7c0ff;
-            --h2-color: #63b3ed;
-            --border-color: #63b3ed;
-            --skill-bg: #253341;
-            --skill-text: #90cdf4;
-            --footer-text: #a0aec0;
-            --toggle-bg: #4a5568;
-            --toggle-active-bg: #63b3ed;
-        }
+[data-theme="dark"] {
+    --body-bg: #1a202c;
+    --container-bg: #2d3748;
+    --text-color: #e2e8f0;
+    --h1-color: #a7c0ff;
+    --h2-color: #63b3ed;
+    --border-color: #63b3ed;
+    --skill-bg: #253341;
+    --skill-text: #90cdf4;
+    --footer-text: #a0aec0;
+    --toggle-bg: #4a5568;
+    --toggle-active-bg: #63b3ed;
+    --cursor-main: #63b3ed;
+}
 
-        body {
-            font-family: "Microsoft YaHei", sans-serif;
-            background-color: var(--body-bg);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding: 20px;
-        }
+body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: var(--body-bg);
+    color: var(--text-color);
+    padding: 20px;
+    min-height: 100vh;
+}
 
-        /* 主题切换 */
-        .theme-toggle-wrapper {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            z-index: 100;
-        }
+/* ===== 主题切换 ===== */
+.theme-toggle-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 100;
+}
 
-        .toggle-switch {
-            width: 50px;
-            height: 26px;
-            border-radius: 13px;
-            background-color: var(--toggle-bg);
-            border: none;
-            cursor: pointer;
-            position: relative;
-        }
+.toggle-switch {
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    background: var(--toggle-bg);
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
 
-        .toggle-circle {
-            width: 22px;
-            height: 22px;
-            background-color: var(--toggle-circle);
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.3s ease;
-        }
+.toggle-switch::after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: .3s;
+}
 
-        .toggle-switch.active {
-            background-color: var(--toggle-active-bg);
-        }
+.toggle-switch.active::after {
+    transform: translateX(24px);
+}
 
-        [data-theme="dark"] .toggle-circle {
-            transform: translateX(24px);
-        }
+/* ===== 主体 ===== */
+.container {
+    max-width: 820px;
+    margin: 60px auto;
+    background: var(--container-bg);
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px var(--shadow-color);
+    animation: fade .6s ease;
+}
 
-        /* 主体容器 */
-        .container {
-            max-width: 820px;
-            margin: 60px auto;
-            background-color: var(--container-bg);
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px var(--shadow-color);
-            animation: fadeIn 0.6s ease;
-        }
+@keyframes fade {
+    from {opacity:0;transform:translateY(10px)}
+    to {opacity:1;transform:none}
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+    letter-spacing: 2px;
+}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
-            letter-spacing: 2px;
-        }
+h2 {
+    margin: 28px 0 14px;
+    color: var(--h2-color);
+}
 
-        h2 {
-            margin: 28px 0 14px;
-            font-size: 1.2rem;
-            color: var(--h2-color);
-        }
+.info-item { margin: 10px 0; }
 
-        .info-item {
-            margin: 10px 0;
-        }
+.skills {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
-        .skills {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
+.skills li {
+    background: var(--skill-bg);
+    color: var(--skill-text);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
 
-        .skills li {
-            background-color: var(--skill-bg);
-            color: var(--skill-text);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
+/* ===== 按钮 ===== */
+.action-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
 
-        /* 互动按钮 */
-        .action-buttons {
-            margin-top: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-        }
+.action-btn {
+    padding: 12px 24px;
+    border-radius: 30px;
+    background: linear-gradient(135deg,#00a1d6,#00c2ff);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(0,161,214,.35);
+    transition: .25s;
+}
 
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #00a1d6, #00c2ff);
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            box-shadow: 0 6px 16px rgba(0, 161, 214, 0.35);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
+.action-btn:hover {
+    transform: translateY(-6px) scale(1.06);
+    box-shadow: 0 14px 28px rgba(0,161,214,.5);
+}
 
-        .action-btn:hover {
-            transform: translateY(-6px) scale(1.05);
-            box-shadow: 0 12px 26px rgba(0, 161, 214, 0.45);
-        }
+/* ===== 自定义鼠标 ===== */
+.cursor-dot,
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
 
-        .action-btn:active {
-            transform: scale(0.97);
-        }
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--cursor-main);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
 
-        [data-theme="dark"] .action-btn {
-            box-shadow: 0 6px 18px rgba(99, 179, 237, 0.45);
-        }
+.cursor-ring {
+    width: 34px;
+    height: 34px;
+    border: 2px solid var(--cursor-main);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
 
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: var(--footer-text);
-        }
-    </style>
+/* 悬停交互 */
+.cursor-hover {
+    transform: translate(-50%, -50%) scale(1.6);
+    box-shadow: 0 0 12px var(--cursor-main);
+}
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: .85rem;
+    color: var(--footer-text);
+}
+</style>
 </head>
 
 <body>
 
-<!-- 主题切换 -->
 <div class="theme-toggle-wrapper">
     <span id="themeText">浅色模式</span>
-    <button class="toggle-switch" id="themeToggle" aria-label="切换深色模式">
-        <div class="toggle-circle"></div>
-    </button>
+    <button class="toggle-switch" id="themeToggle"></button>
 </div>
 
 <div class="container">
-    <h1>关于我</h1>
+<h1>关于我</h1>
 
-    <h2>📌 基本信息</h2>
-    <div class="info-item"><strong>姓名：</strong>史锦浩</div>
-    <div class="info-item"><strong>年龄：</strong>13 岁</div>
-    <div class="info-item"><strong>身份：</strong>在校学生</div>
-    <div class="info-item"><strong>联系方式：</strong>邮箱联系（暂不公开电话）</div>
+<h2>📌 基本信息</h2>
+<div class="info-item"><strong>姓名：</strong>史锦浩</div>
+<div class="info-item"><strong>年龄：</strong>13 岁</div>
+<div class="info-item"><strong>身份：</strong>在校学生</div>
 
-    <h2>✍️ 个人简介</h2>
-    <p>
-        对计算机技术和编程充满兴趣，主要通过自学方式学习相关知识。
-        平时喜欢研究网页制作、前端效果和基础编程逻辑，
-        希望未来能持续深入技术领域，做出有价值、有趣的作品。
-    </p>
+<h2>✍️ 个人简介</h2>
+<p>对计算机技术和编程充满兴趣，主要通过自学方式学习网页与前端效果，希望未来能做出有价值、有趣的作品。</p>
 
-    <h2>💻 掌握技能</h2>
-    <ul class="skills">
-        <li>HTML / CSS</li>
-        <li>基础 JavaScript</li>
-        <li>网页布局与样式设计</li>
-        <li>自学能力</li>
-    </ul>
+<h2>💻 掌握技能</h2>
+<ul class="skills">
+<li>HTML / CSS</li>
+<li>基础 JavaScript</li>
+<li>网页布局</li>
+</ul>
 
-    <h2>🌟 兴趣爱好</h2>
-    <p>
-        喜欢敲代码、研究新技术，也热爱跑步、骑车等户外运动；
-        平时会看技术视频、科普内容，偶尔看看电影、听音乐放松自己。
-    </p>
-
-    <h2>🚀 快速入口</h2>
-    <div class="action-buttons">
-        <a class="action-btn" href="https://www.bilibili.com" target="_blank">▶️ 哔哩哔哩</a>
-        <a class="action-btn" href="https://www.bilibili.com/v/technology" target="_blank">💻 技术区</a>
-        <a class="action-btn" href="https://www.bilibili.com/v/kichiku" target="_blank">😄 娱乐放松</a>
-    </div>
-
-    <div class="footer">
-        个人主页 · 制作于 2026 年 1 月
-    </div>
+<h2>🚀 快速入口</h2>
+<div class="action-buttons">
+<a class="action-btn" href="https://www.bilibili.com" target="_blank">▶️ 哔哩哔哩</a>
+<a class="action-btn" href="https://www.bilibili.com/v/technology" target="_blank">💻 技术区</a>
+<a class="action-btn" href="https://www.bilibili.com/v/kichiku" target="_blank">😄 娱乐</a>
 </div>
 
+<div class="footer">个人主页 · 2026 年</div>
+</div>
+
+<!-- 自定义鼠标 -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
 <script>
-    const toggle = document.getElementById('themeToggle');
-    const themeText = document.getElementById('themeText');
-    const root = document.documentElement;
+/* 主题切换 */
+const toggle = document.getElementById("themeToggle");
+const root = document.documentElement;
+const text = document.getElementById("themeText");
 
-    const savedTheme = localStorage.getItem('pageTheme') || 'light';
-    root.setAttribute('data-theme', savedTheme);
-    toggle.classList.toggle('active', savedTheme === 'dark');
-    themeText.textContent = savedTheme === 'dark' ? '深色模式' : '浅色模式';
+let theme = localStorage.getItem("pageTheme") || "light";
+root.setAttribute("data-theme", theme);
+toggle.classList.toggle("active", theme==="dark");
+text.textContent = theme==="dark"?"深色模式":"浅色模式";
 
-    toggle.addEventListener('click', () => {
-        const newTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', newTheme);
-        localStorage.setItem('pageTheme', newTheme);
-        toggle.classList.toggle('active', newTheme === 'dark');
-        themeText.textContent = newTheme === 'dark' ? '深色模式' : '浅色模式';
-    });
+toggle.onclick = () => {
+    theme = theme==="dark"?"light":"dark";
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem("pageTheme", theme);
+    toggle.classList.toggle("active", theme==="dark");
+    text.textContent = theme==="dark"?"深色模式":"浅色模式";
+};
+
+/* 鼠标特效 */
+const dot = document.querySelector(".cursor-dot");
+const ring = document.querySelector(".cursor-ring");
+
+window.addEventListener("mousemove", e => {
+    dot.style.left = ring.style.left = e.clientX + "px";
+    dot.style.top = ring.style.top = e.clientY + "px";
+});
+
+document.querySelectorAll("a, button").forEach(el => {
+    el.addEventListener("mouseenter",()=>ring.classList.add("cursor-hover"));
+    el.addEventListener("mouseleave",()=>ring.classList.remove("cursor-hover"));
+});
 </script>
 
 </body>
