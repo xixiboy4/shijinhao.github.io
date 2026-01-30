@@ -32,6 +32,8 @@
             --bilibili-bg: #fb7299;
             --bilibili-hover: #ff587f;
             --bilibili-text: #ffffff;
+            --tip-bg: rgba(52, 152, 219, 0.9);
+            --tip-text: #fff;
         }
         [data-theme="dark"] {
             --body-bg: #1a202c;
@@ -49,6 +51,8 @@
             --toggle-active-bg: #63b3ed;
             --bilibili-bg: #d9577c;
             --bilibili-hover: #fb7299;
+            --tip-bg: rgba(99, 179, 237, 0.9);
+            --tip-text: #fff;
         }
         body {
             font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
@@ -67,6 +71,25 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
+        }
+        /* 新增：主题切换提示弹窗样式 */
+        .theme-tip {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--tip-bg);
+            color: var(--tip-text);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .theme-tip.show {
+            opacity: 1;
         }
         .theme-toggle-wrapper {
             position: fixed;
@@ -131,7 +154,6 @@
             cursor: pointer;
             margin: 20px 0;
             box-shadow: 0 2px 6px rgba(251, 114, 153, 0.3);
-            /* bug修复1：加动画结束复位，避免卡顿 */
             animation-fill-mode: forwards;
         }
         .bilibili-btn:hover {
@@ -194,10 +216,13 @@
             h2 { font-size: 1.1rem; }
             .title-icon { font-size: 1.2rem; }
             .info-item { font-size: 0.95rem; }
+            .theme-tip { top: 15px; padding: 6px 12px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
+    <!-- 新增：主题提示弹窗 -->
+    <div class="theme-tip" id="themeTip"></div>
     <div class="theme-toggle-wrapper">
         <i class="fas fa-sun theme-icon"></i>
         <div class="toggle-switch" id="themeToggle">
@@ -246,24 +271,38 @@
     <script>
         const toggleSwitch = document.getElementById('themeToggle');
         const htmlRoot = document.documentElement;
+        const themeTip = document.getElementById('themeTip');
+        
+        // 新增：弹窗提示函数（显示1.5秒消失）
+        const showTip = (text) => {
+            themeTip.textContent = text;
+            themeTip.classList.add('show');
+            setTimeout(() => {
+                themeTip.classList.remove('show');
+            }, 1500);
+        };
+
         const initTheme = () => {
             const savedTheme = localStorage.getItem('pageTheme');
             const currentTheme = savedTheme || 'light';
             htmlRoot.setAttribute('data-theme', currentTheme);
             if (currentTheme === 'dark') toggleSwitch.classList.add('active');
         };
+
         const toggleTheme = () => {
             const currentTheme = htmlRoot.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             htmlRoot.setAttribute('data-theme', newTheme);
             localStorage.setItem('pageTheme', newTheme);
             toggleSwitch.classList.toggle('active', newTheme === 'dark');
-            // bug修复2：深色模式下B站按钮阴影同步变色，不突兀
+            // 新增：切换时显示对应提示
+            newTheme === 'dark' ? showTip('已开启深色模式') : showTip('已开启浅色模式');
+            // 阴影同步
             document.querySelector('.bilibili-btn').style.boxShadow = newTheme === 'dark' 
             ? '0 2px 6px rgba(217, 87, 124, 0.3)' 
             : '0 2px 6px rgba(251, 114, 153, 0.3)';
         };
-        // bug修复3：初始化就同步按钮阴影，避免深色模式初始错位
+
         window.onload = () => {
             initTheme();
             const isDark = htmlRoot.getAttribute('data-theme') === 'dark';
