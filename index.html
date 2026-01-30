@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我 - 史锦浩</title>
-    <!-- 引入Font Awesome图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 全局样式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
         }
-
-        /* 颜色变量定义 - 浅色模式（默认） */
         :root {
             --body-bg: #e8f4f8;
             --container-bg: #ffffff;
@@ -27,22 +23,16 @@
             --skill-text: #2196f3;
             --footer-text: #7f8c8d;
             --shadow-color: rgba(0, 0, 0, 0.1);
-            /* 链接颜色 */
             --link-color: #3498db;
             --link-hover: #2980b9;
-            /* 开关按钮颜色 */
             --toggle-bg: #e0e0e0;
             --toggle-circle: #ffffff;
             --toggle-active-bg: #3498db;
-            /* 图标颜色 */
             --icon-color: var(--h2-color);
-            /* B站按钮颜色 */
             --bilibili-bg: #fb7299;
             --bilibili-hover: #ff587f;
             --bilibili-text: #ffffff;
         }
-
-        /* 深色模式变量覆盖 */
         [data-theme="dark"] {
             --body-bg: #1a202c;
             --container-bg: #2d3748;
@@ -53,18 +43,13 @@
             --skill-bg: #253341;
             --skill-text: #90cdf4;
             --footer-text: #a0aec0;
-            /* 深色模式链接颜色 */
             --link-color: #63b3ed;
             --link-hover: #90cdf4;
-            /* 深色模式开关颜色 */
             --toggle-bg: #4a5568;
             --toggle-active-bg: #63b3ed;
-            /* B站按钮深色模式微调 */
             --bilibili-bg: #d9577c;
             --bilibili-hover: #fb7299;
         }
-
-        /* 页面基础样式 */
         body {
             font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
             background-color: var(--body-bg);
@@ -75,22 +60,14 @@
             opacity: 0;
             animation: pageFadeIn 0.5s ease forwards;
         }
-
-        /* 页面加载淡入动画 */
         @keyframes pageFadeIn {
-            to {
-                opacity: 1;
-            }
+            to { opacity: 1; }
         }
-
-        /* 跳动动画 - 鼠标悬浮触发 */
         @keyframes bounce {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-
-        /* 美化后的开关式切换按钮 */
         .theme-toggle-wrapper {
             position: fixed;
             top: 20px;
@@ -102,7 +79,6 @@
             font-size: 0.9rem;
             z-index: 100;
         }
-
         .toggle-switch {
             position: relative;
             width: 50px;
@@ -112,7 +88,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .toggle-circle {
             position: absolute;
             top: 2px;
@@ -124,33 +99,15 @@
             transition: transform 0.3s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
-
-        .toggle-switch.active .toggle-circle {
-            transform: translateX(24px);
-        }
-
-        .toggle-switch.active {
-            background-color: var(--toggle-active-bg);
-        }
-
-        .theme-icon {
-            font-size: 1.1rem;
-            color: var(--icon-color);
-        }
-
-        /* 链接样式（适配深浅模式） */
+        .toggle-switch.active .toggle-circle { transform: translateX(24px); }
+        .toggle-switch.active { background-color: var(--toggle-active-bg); }
+        .theme-icon { font-size: 1.1rem; color: var(--icon-color); }
         a {
             color: var(--link-color);
             text-decoration: none;
             transition: color 0.2s ease;
         }
-
-        a:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
-        }
-
-        /* 容器样式 */
+        a:hover { color: var(--link-hover); text-decoration: underline; }
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -158,10 +115,8 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px var(--shadow-color);
-            margin-top: 80px; /* 避免被开关遮挡 */
+            margin-top: 80px;
         }
-
-        /* B站导航按钮样式 */
         .bilibili-btn {
             display: inline-flex;
             align-items: center;
@@ -176,16 +131,15 @@
             cursor: pointer;
             margin: 20px 0;
             box-shadow: 0 2px 6px rgba(251, 114, 153, 0.3);
+            /* bug修复1：加动画结束复位，避免卡顿 */
+            animation-fill-mode: forwards;
         }
         .bilibili-btn:hover {
             background-color: var(--bilibili-hover);
-            animation: bounce 0.6s ease; /* 仅删infinite，只跳1次，其他不变 */
+            animation: bounce 0.6s ease;
             text-decoration: none;
         }
-        .bilibili-icon {
-            font-size: 1.2rem;
-        }
-
+        .bilibili-icon { font-size: 1.2rem; }
         h1 {
             color: var(--h1-color);
             text-align: center;
@@ -193,7 +147,6 @@
             padding-bottom: 15px;
             border-bottom: 2px solid var(--border-color);
         }
-
         h2 {
             color: var(--h2-color);
             margin: 25px 0 15px;
@@ -202,18 +155,8 @@
             align-items: center;
             gap: 8px;
         }
-
-        /* 标题图标样式 */
-        .title-icon {
-            color: var(--icon-color);
-            font-size: 1.3rem;
-        }
-
-        .info-item {
-            margin: 12px 0;
-            font-size: 1rem;
-        }
-
+        .title-icon { color: var(--icon-color); font-size: 1.3rem; }
+        .info-item { margin: 12px 0; font-size: 1rem; }
         .skills {
             list-style: none;
             display: flex;
@@ -221,7 +164,6 @@
             gap: 10px;
             margin-top: 10px;
         }
-
         .skills li {
             background-color: var(--skill-bg);
             color: var(--skill-text);
@@ -231,11 +173,7 @@
             transition: transform 0.2s ease;
             cursor: default;
         }
-
-        .skills li:hover {
-            transform: scale(1.05);
-        }
-
+        .skills li:hover { transform: scale(1.05); }
         .footer {
             text-align: center;
             margin-top: 40px;
@@ -245,54 +183,21 @@
             border-top: 1px solid var(--border-color);
             opacity: 0.8;
         }
-
-        /* 移动端适配 */
         @media (max-width: 480px) {
-            .theme-toggle-wrapper {
-                top: 10px;
-                right: 10px;
-                gap: 5px;
-                font-size: 0.8rem;
-            }
-            .toggle-switch {
-                width: 44px;
-                height: 24px;
-            }
-            .toggle-circle {
-                width: 20px;
-                height: 20px;
-            }
-            .toggle-switch.active .toggle-circle {
-                transform: translateX(20px);
-            }
-            .container {
-                margin-top: 60px;
-                padding: 20px;
-            }
-            .bilibili-btn {
-                padding: 8px 16px;
-                font-size: 0.95rem;
-                width: 100%;
-                justify-content: center;
-            }
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 20px;
-            }
-            h2 {
-                font-size: 1.1rem;
-            }
-            .title-icon {
-                font-size: 1.2rem;
-            }
-            .info-item {
-                font-size: 0.95rem;
-            }
+            .theme-toggle-wrapper { top: 10px; right: 10px; gap: 5px; font-size: 0.8rem; }
+            .toggle-switch { width: 44px; height: 24px; }
+            .toggle-circle { width: 20px; height: 20px; }
+            .toggle-switch.active .toggle-circle { transform: translateX(20px); }
+            .container { margin-top: 60px; padding: 20px; }
+            .bilibili-btn { padding: 8px 16px; font-size: 0.95rem; width: 100%; justify-content: center; }
+            h1 { font-size: 1.5rem; margin-bottom: 20px; }
+            h2 { font-size: 1.1rem; }
+            .title-icon { font-size: 1.2rem; }
+            .info-item { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
-    <!-- 深色模式切换开关 -->
     <div class="theme-toggle-wrapper">
         <i class="fas fa-sun theme-icon"></i>
         <div class="toggle-switch" id="themeToggle">
@@ -300,11 +205,8 @@
         </div>
         <i class="fas fa-moon theme-icon"></i>
     </div>
-
-    <!-- 页面核心内容（语义化标签） -->
     <main class="container">
         <h1>关于我</h1>
-        <!-- B站导航按钮 -->
         <a href="https://www.bilibili.com/" target="_blank" class="bilibili-btn">
             <i class="fab fa-bilibili bilibili-icon"></i>
             娱乐一下吧
@@ -341,40 +243,34 @@
             自我介绍 | 制作于 2026年1月29日
         </div>
     </main>
-
     <script>
-        // 深色模式切换逻辑
         const toggleSwitch = document.getElementById('themeToggle');
         const htmlRoot = document.documentElement;
-
-        // 初始化主题和开关样式
         const initTheme = () => {
             const savedTheme = localStorage.getItem('pageTheme');
-            // 默认浅色模式
             const currentTheme = savedTheme || 'light';
             htmlRoot.setAttribute('data-theme', currentTheme);
-            // 同步开关样式
-            if (currentTheme === 'dark') {
-                toggleSwitch.classList.add('active');
-            } else {
-                toggleSwitch.classList.remove('active');
-            }
+            if (currentTheme === 'dark') toggleSwitch.classList.add('active');
         };
-
-        // 切换主题函数
         const toggleTheme = () => {
             const currentTheme = htmlRoot.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             htmlRoot.setAttribute('data-theme', newTheme);
             localStorage.setItem('pageTheme', newTheme);
-            // 开关样式联动
             toggleSwitch.classList.toggle('active', newTheme === 'dark');
+            // bug修复2：深色模式下B站按钮阴影同步变色，不突兀
+            document.querySelector('.bilibili-btn').style.boxShadow = newTheme === 'dark' 
+            ? '0 2px 6px rgba(217, 87, 124, 0.3)' 
+            : '0 2px 6px rgba(251, 114, 153, 0.3)';
         };
-
-        // 初始化
-        initTheme();
-        // 绑定点击事件
+        // bug修复3：初始化就同步按钮阴影，避免深色模式初始错位
+        window.onload = () => {
+            initTheme();
+            const isDark = htmlRoot.getAttribute('data-theme') === 'dark';
+            document.querySelector('.bilibili-btn').style.boxShadow = isDark
+            ? '0 2px 6px rgba(217, 87, 124, 0.3)'
+            : '0 2px 6px rgba(251, 114, 153, 0.3)';
+        };
         toggleSwitch.addEventListener('click', toggleTheme);
     </script>
 </body>
