@@ -1,0 +1,45 @@
+/* 替换方案1中的按钮样式 */
+.theme-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    /* 渐变背景 */
+    background: linear-gradient(135deg, #3498db, #63b3ed);
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    z-index: 100;
+    /* 禁止文字选中 */
+    user-select: none;
+    /* 基础过渡 */
+    transition: all 0.3s ease;
+}
+
+/* 悬浮效果 */
+.theme-btn:hover {
+    /* 轻微放大 */
+    transform: scale(1.05);
+    /* 加深阴影 */
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+    /* 渐变偏移 */
+    background: linear-gradient(135deg, #2980b9, #3498db);
+}
+
+/* 点击按压效果 */
+.theme-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+}
+
+/* 深色模式下按钮样式适配 */
+[data-theme="dark"] .theme-btn {
+    background: linear-gradient(135deg, #63b3ed, #90cdf4);
+}
+[data-theme="dark"] .theme-btn:hover {
+    background: linear-gradient(135deg, #4299e1, #63b3ed);
+}
