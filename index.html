@@ -36,6 +36,10 @@
             --toggle-active-bg: #3498db;
             /* 图标颜色 */
             --icon-color: var(--h2-color);
+            /* B站按钮颜色 */
+            --bilibili-bg: #fb7299;
+            --bilibili-hover: #ff587f;
+            --bilibili-text: #ffffff;
         }
 
         /* 深色模式变量覆盖 */
@@ -55,6 +59,9 @@
             /* 深色模式开关颜色 */
             --toggle-bg: #4a5568;
             --toggle-active-bg: #63b3ed;
+            /* B站按钮深色模式微调 */
+            --bilibili-bg: #d9577c;
+            --bilibili-hover: #fb7299;
         }
 
         /* 页面基础样式 */
@@ -74,6 +81,13 @@
             to {
                 opacity: 1;
             }
+        }
+
+        /* 跳动动画 - 鼠标悬浮触发 */
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         /* 美化后的开关式切换按钮 */
@@ -145,6 +159,31 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px var(--shadow-color);
             margin-top: 80px; /* 避免被开关遮挡 */
+        }
+
+        /* B站导航按钮样式 */
+        .bilibili-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--bilibili-bg);
+            color: var(--bilibili-text);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            margin: 20px 0;
+            box-shadow: 0 2px 6px rgba(251, 114, 153, 0.3);
+        }
+        .bilibili-btn:hover {
+            background-color: var(--bilibili-hover);
+            animation: bounce 0.6s ease infinite;
+            text-decoration: none;
+        }
+        .bilibili-icon {
+            font-size: 1.2rem;
         }
 
         h1 {
@@ -230,6 +269,12 @@
                 margin-top: 60px;
                 padding: 20px;
             }
+            .bilibili-btn {
+                padding: 8px 16px;
+                font-size: 0.95rem;
+                width: 100%;
+                justify-content: center;
+            }
             h1 {
                 font-size: 1.5rem;
                 margin-bottom: 20px;
@@ -259,6 +304,11 @@
     <!-- 页面核心内容（语义化标签） -->
     <main class="container">
         <h1>关于我</h1>
+        <!-- B站导航按钮 -->
+        <a href="https://www.bilibili.com/" target="_blank" class="bilibili-btn">
+            <i class="fab fa-bilibili bilibili-icon"></i>
+            打开哔哩哔哩
+        </a>
         <div class="basic-info">
             <h2><i class="fas fa-user-circle title-icon"></i> 基本信息</h2>
             <div class="info-item"><strong>姓名：</strong>史锦浩</div>
