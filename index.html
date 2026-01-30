@@ -1,45 +1,248 @@
-/* 替换方案1中的按钮样式 */
-.theme-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    /* 渐变背景 */
-    background: linear-gradient(135deg, #3498db, #63b3ed);
-    color: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-    z-index: 100;
-    /* 禁止文字选中 */
-    user-select: none;
-    /* 基础过渡 */
-    transition: all 0.3s ease;
-}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 史锦浩</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-/* 悬浮效果 */
-.theme-btn:hover {
-    /* 轻微放大 */
-    transform: scale(1.05);
-    /* 加深阴影 */
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
-    /* 渐变偏移 */
-    background: linear-gradient(135deg, #2980b9, #3498db);
-}
+        /* 颜色变量定义 */
+        :root {
+            --body-bg: #e8f4f8;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --h1-color: #2c3e50;
+            --h2-color: #3498db;
+            --border-color: #3498db;
+            --skill-bg: #e3f2fd;
+            --skill-text: #2196f3;
+            --footer-text: #7f8c8d;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            /* 链接颜色 */
+            --link-color: #3498db;
+            --link-hover: #2980b9;
+            /* 开关按钮颜色 */
+            --toggle-bg: #e0e0e0;
+            --toggle-circle: #ffffff;
+            --toggle-active-bg: #3498db;
+        }
 
-/* 点击按压效果 */
-.theme-btn:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
-}
+        [data-theme="dark"] {
+            --body-bg: #1a202c;
+            --container-bg: #2d3748;
+            --text-color: #e2e8f0;
+            --h1-color: #a7c0ff;
+            --h2-color: #63b3ed;
+            --border-color: #63b3ed;
+            --skill-bg: #253341;
+            --skill-text: #90cdf4;
+            --footer-text: #a0aec0;
+            /* 深色模式链接颜色 */
+            --link-color: #63b3ed;
+            --link-hover: #90cdf4;
+            /* 深色模式开关颜色 */
+            --toggle-bg: #4a5568;
+            --toggle-active-bg: #63b3ed;
+        }
 
-/* 深色模式下按钮样式适配 */
-[data-theme="dark"] .theme-btn {
-    background: linear-gradient(135deg, #63b3ed, #90cdf4);
-}
-[data-theme="dark"] .theme-btn:hover {
-    background: linear-gradient(135deg, #4299e1, #63b3ed);
-}
+        /* 页面基础样式 */
+        body {
+            font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* 美化后的开关式切换按钮 */
+        .theme-toggle-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background-color: var(--toggle-bg);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background-color: var(--toggle-circle);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .toggle-circle {
+            transform: translateX(24px);
+        }
+
+        .toggle-switch.active {
+            background-color: var(--toggle-active-bg);
+        }
+
+        .theme-icon {
+            font-size: 1.1rem;
+        }
+
+        /* 链接样式（适配深浅模式） */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        /* 原有样式 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: var(--h1-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--h2-color);
+            margin: 25px 0 15px;
+            font-size: 1.2rem;
+        }
+
+        .info-item {
+            margin: 12px 0;
+        }
+
+        .skills {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .skills li {
+            background-color: var(--skill-bg);
+            color: var(--skill-text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--footer-text);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 深色模式切换开关 -->
+    <div class="theme-toggle-wrapper">
+        <span class="theme-icon">☀️</span>
+        <div class="toggle-switch" id="themeToggle">
+            <div class="toggle-circle"></div>
+        </div>
+        <span class="theme-icon">🌙</span>
+    </div>
+
+    <!-- 页面核心容器 -->
+    <div class="container">
+        <h1>关于我</h1>
+        <div class="basic-info">
+            <h2>📌 基本信息</h2>
+            <div class="info-item"><strong>姓名：</strong>史锦浩</div>
+            <div class="info-item"><strong>年龄：</strong>13岁</div>
+            <div class="info-item"><strong>职业：</strong>学生</div>
+            <!-- 关键修改：给电话和邮箱加超链接 -->
+            <div class="info-item">
+                <strong>联系方式：</strong>
+                <a href="tel:15806429068">15806429068</a> / 
+                <a href="mailto:670549227@qq.com">670549227@qq.com</a>
+            </div>
+        </div>
+        <div class="intro">
+            <h2>✍️ 个人简介</h2>
+            <p>毕业于加里敦大学计算机自学科学与技术专业</p>
+            <p>性格开朗乐观，善于沟通协作，对新技术充满好奇心，始终保持学习的热情，希望在技术道路上不断深耕，
+            做出更有价值的产品。</p>
+        </div>
+        <div class="skill-section">
+            <h2>💻 掌握技能</h2>
+            <ul class="skills">
+                <li>一点点计算机技术</li>
+            </ul>
+        </div>
+        <div class="hobby">
+            <h2>🌟 兴趣爱好</h2>
+            <p>平时喜欢阅读技术博客、敲代码练习；业余时间爱好跑步、骑车，享受户外运动带来的放松；
+            也喜欢看电影、听音乐，偶尔会尝试做一些美食。</p>
+        </div>
+        <div class="footer">
+            自我介绍 | 制作于 2026年1月29日
+        </div>
+    </div>
+
+    <script>
+        // 深色模式切换逻辑
+        const toggleSwitch = document.getElementById('themeToggle');
+        const htmlRoot = document.documentElement;
+        const toggleCircle = toggleSwitch.querySelector('.toggle-circle');
+
+        // 初始化主题
+        const savedTheme = localStorage.getItem('pageTheme');
+        if (savedTheme) {
+            htmlRoot.setAttribute('data-theme', savedTheme);
+            toggleSwitch.classList.toggle('active', savedTheme === 'dark');
+        }
+
+        // 点击开关切换主题
+        toggleSwitch.addEventListener('click', () => {
+            const currentTheme = htmlRoot.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlRoot.setAttribute('data-theme', newTheme);
+            localStorage.setItem('pageTheme', newTheme);
+            toggleSwitch.classList.toggle('active', newTheme === 'dark');
+        });
+    </script>
+</body>
+</html>
