@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我 - 史锦浩</title>
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 全局样式重置 */
         * {
@@ -32,6 +34,8 @@
             --toggle-bg: #e0e0e0;
             --toggle-circle: #ffffff;
             --toggle-active-bg: #3498db;
+            /* 图标颜色 */
+            --icon-color: var(--h2-color);
         }
 
         [data-theme="dark"] {
@@ -107,6 +111,7 @@
 
         .theme-icon {
             font-size: 1.1rem;
+            color: var(--icon-color);
         }
 
         /* 链接样式（适配深浅模式） */
@@ -147,6 +152,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* 标题图标样式 */
+        .title-icon {
+            color: var(--icon-color);
+            font-size: 1.3rem;
         }
 
         .info-item {
@@ -216,6 +227,9 @@
             h2 {
                 font-size: 1.1rem;
             }
+            .title-icon {
+                font-size: 1.2rem;
+            }
             .info-item {
                 font-size: 0.95rem;
             }
@@ -223,20 +237,20 @@
     </style>
 </head>
 <body>
-    <!-- 深色模式切换开关 -->
+    <!-- 深色模式切换开关（替换为Font Awesome图标） -->
     <div class="theme-toggle-wrapper">
-        <span class="theme-icon">深色模式</span>
+        <i class="fas fa-sun theme-icon"></i>
         <div class="toggle-switch" id="themeToggle">
             <div class="toggle-circle"></div>
         </div>
-    
+        <i class="fas fa-moon theme-icon"></i>
     </div>
 
     <!-- 页面核心容器 -->
     <div class="container">
         <h1>关于我</h1>
         <div class="basic-info">
-            <h2>📌 基本信息</h2>
+            <h2><i class="fas fa-user-circle title-icon"></i> 基本信息</h2>
             <div class="info-item"><strong>姓名：</strong>史锦浩</div>
             <div class="info-item"><strong>年龄：</strong>13岁</div>
             <div class="info-item"><strong>职业：</strong>学生</div>
@@ -247,18 +261,18 @@
             </div>
         </div>
         <div class="intro">
-            <h2>✍️ 个人简介</h2>
+            <h2><i class="fas fa-pen-fancy title-icon"></i> 个人简介</h2>
             <p>毕业于加里敦大学计算机自学科学与技术专业</p>
             <p style="margin-top: 8px;">性格开朗乐观，善于沟通协作，对新技术充满好奇心，始终保持学习的热情，希望在技术道路上不断深耕，做出更有价值的产品。</p>
         </div>
         <div class="skill-section">
-            <h2>💻 掌握技能</h2>
+            <h2><i class="fas fa-code title-icon"></i> 掌握技能</h2>
             <ul class="skills">
                 <li>一点点计算机技术</li>
             </ul>
         </div>
         <div class="hobby">
-            <h2>🌟 兴趣爱好</h2>
+            <h2><i class="fas fa-star title-icon"></i> 兴趣爱好</h2>
             <p>平时喜欢阅读技术博客、敲代码练习；业余时间爱好跑步、骑车，享受户外运动带来的放松；也喜欢看电影、听音乐，偶尔会尝试做一些美食。</p>
         </div>
         <div class="footer">
