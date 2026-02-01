@@ -23,6 +23,7 @@
             --skill-text: #2196f3;
             --footer-text: #7f8c8d;
             --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(52, 152, 219, 0.2);
             --link-color: #3498db;
             --link-hover: #2980b9;
             --toggle-bg: #e0e0e0;
@@ -45,6 +46,8 @@
             --skill-bg: #253341;
             --skill-text: #90cdf4;
             --footer-text: #a0aec0;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(99, 179, 237, 0.2);
             --link-color: #63b3ed;
             --link-hover: #90cdf4;
             --toggle-bg: #4a5568;
@@ -72,7 +75,6 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-        /* 新增：主题切换提示弹窗样式 */
         .theme-tip {
             position: fixed;
             top: 20px;
@@ -81,7 +83,7 @@
             background-color: var(--tip-bg);
             color: var(--tip-text);
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 0.9rem;
             z-index: 999;
             opacity: 0;
@@ -131,14 +133,29 @@
             transition: color 0.2s ease;
         }
         a:hover { color: var(--link-hover); text-decoration: underline; }
+        a[href^="tel"],a[href^="mailto"] {
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        a[href^="tel"]:hover,a[href^="mailto"]:hover {
+            background: var(--skill-bg);
+            text-decoration: none;
+        }
+        /* 核心：容器悬浮效果 */
         .container {
             max-width: 800px;
             margin: 0 auto;
             background-color: var(--container-bg);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px var(--shadow-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-color);
             margin-top: 80px;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px var(--shadow-hover);
         }
         .bilibili-btn {
             display: inline-flex;
@@ -211,6 +228,7 @@
             .toggle-circle { width: 20px; height: 20px; }
             .toggle-switch.active .toggle-circle { transform: translateX(20px); }
             .container { margin-top: 60px; padding: 20px; }
+            .container:hover { transform: translateY(-5px); }
             .bilibili-btn { padding: 8px 16px; font-size: 0.95rem; width: 100%; justify-content: center; }
             h1 { font-size: 1.5rem; margin-bottom: 20px; }
             h2 { font-size: 1.1rem; }
@@ -221,7 +239,6 @@
     </style>
 </head>
 <body>
-    <!-- 新增：主题提示弹窗 -->
     <div class="theme-tip" id="themeTip"></div>
     <div class="theme-toggle-wrapper">
         <i class="fas fa-sun theme-icon"></i>
@@ -232,10 +249,10 @@
     </div>
     <main class="container">
         <h1>关于我</h1>
-        <a href="https://www.bilibili.com/" target="_blank" class="bilibili-btn">
+        <a href=" " target="_blank" class="bilibili-btn">
             <i class="fab fa-bilibili bilibili-icon"></i>
             娱乐一下吧
-        </a>
+        </a >
         <div class="basic-info">
             <h2><i class="fas fa-user-circle title-icon"></i> 基本信息</h2>
             <div class="info-item"><strong>姓名：</strong>史锦浩</div>
@@ -243,14 +260,14 @@
             <div class="info-item"><strong>职业：</strong>学生</div>
             <div class="info-item">
                 <strong>联系方式：</strong>
-                <a href="tel:15806429068">15806429068</a> / 
-                <a href="mailto:670549227@qq.com">670549227@qq.com</a>
+                <a href="tel:15806429068">15806429068</a > / 
+                <a href="mailto:670549227@qq.com">670549227@qq.com</a >
             </div>
         </div>
         <div class="intro">
             <h2><i class="fas fa-pen-fancy title-icon"></i> 个人简介</h2>
-            <p>初中在读学生，自学计算机相关知识，对编程和新技术充满兴趣</p>
-            <p style="margin-top: 8px;">性格开朗乐观，善于沟通协作，始终保持学习的热情，希望在技术道路上不断积累，逐步提升自己的能力。</p>
+            <p>初中在读学生，自学计算机相关知识，对编程和新技术充满兴趣</p >
+            <p style="margin-top: 8px;">性格开朗乐观，善于沟通协作，始终保持学习的热情，希望在技术道路上不断积累，逐步提升自己的能力。</p >
         </div>
         <div class="skill-section">
             <h2><i class="fas fa-code title-icon"></i> 掌握技能</h2>
@@ -262,7 +279,7 @@
         </div>
         <div class="hobby">
             <h2><i class="fas fa-star title-icon"></i> 兴趣爱好</h2>
-            <p>平时喜欢阅读技术博客、敲代码练习；业余时间爱好跑步、骑车，享受户外运动带来的放松；也喜欢看电影、听音乐，偶尔会尝试做一些美食。</p>
+            <p>平时喜欢阅读技术博客、敲代码练习；业余时间爱好跑步、骑车，享受户外运动带来的放松；也喜欢看电影、听音乐，偶尔会尝试做一些美食。</p >
         </div>
         <div class="footer">
             自我介绍 | 制作于 2026年1月29日
@@ -272,21 +289,21 @@
         const toggleSwitch = document.getElementById('themeToggle');
         const htmlRoot = document.documentElement;
         const themeTip = document.getElementById('themeTip');
+        const biliBtn = document.querySelector('.bilibili-btn');
         
-        // 新增：弹窗提示函数（显示1.5秒消失）
         const showTip = (text) => {
             themeTip.textContent = text;
-            themeTip.classList.add('show');
-            setTimeout(() => {
-                themeTip.classList.remove('show');
-            }, 1500);
+            themeTip.classList.添加('show');
+            setTimeout(() => themeTip.classList.移除('show'), 1500);
         };
 
         const initTheme = () => {
-            const savedTheme = localStorage.getItem('pageTheme');
-            const currentTheme = savedTheme || 'light';
-            htmlRoot.setAttribute('data-theme', currentTheme);
-            if (currentTheme === 'dark') toggleSwitch.classList.add('active');
+            const savedTheme = localStorage.getItem('pageTheme') || 'light';
+            htmlRoot.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') toggleSwitch.classList.添加('active');
+            biliBtn.style.boxShadow = savedTheme === 'dark' 
+            ? '0 2px 6px rgba(217, 87, 124, 0.3)' 
+            : '0 2px 6px rgba(251, 114, 153, 0.3)';
         };
 
         const toggleTheme = () => {
@@ -295,22 +312,14 @@
             htmlRoot.setAttribute('data-theme', newTheme);
             localStorage.setItem('pageTheme', newTheme);
             toggleSwitch.classList.toggle('active', newTheme === 'dark');
-            // 新增：切换时显示对应提示
-            newTheme === 'dark' ? showTip('已开启深色模式') : showTip('已开启浅色模式');
-            // 阴影同步
-            document.querySelector('.bilibili-btn').style.boxShadow = newTheme === 'dark' 
+            showTip(newTheme === 'dark' ? '已开启深色模式' : '已开启浅色模式');
+            biliBtn.style.boxShadow = newTheme === 'dark' 
             ? '0 2px 6px rgba(217, 87, 124, 0.3)' 
             : '0 2px 6px rgba(251, 114, 153, 0.3)';
         };
 
-        window.onload = () => {
-            initTheme();
-            const isDark = htmlRoot.getAttribute('data-theme') === 'dark';
-            document.querySelector('.bilibili-btn').style.boxShadow = isDark
-            ? '0 2px 6px rgba(217, 87, 124, 0.3)'
-            : '0 2px 6px rgba(251, 114, 153, 0.3)';
-        };
+        window.onload = initTheme;
         toggleSwitch.addEventListener('click', toggleTheme);
     </script>
-</body>
+</内容>
 </html>
