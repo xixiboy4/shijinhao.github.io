@@ -35,6 +35,10 @@
             --bilibili-text: #ffffff;
             --tip-bg: rgba(52, 152, 219, 0.9);
             --tip-text: #fff;
+            /* 新增弹窗样式变量 */
+            --popup-bg: var(--container-bg);
+            --popup-border: var(--border-color);
+            --popup-close-hover: #e74c3c;
         }
         [data-theme="dark"] {
             --body-bg: #1a202c;
@@ -75,6 +79,78 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+        /* 新增：更新提示弹窗样式 */
+        .update-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--popup-bg);
+            border: 1px solid var(--popup-border);
+            border-radius: 12px;
+            padding: 25px 30px;
+            width: 90%;
+            max-width: 400px;
+            z-index: 1000;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .update-popup.show {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .update-popup .popup-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--h2-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .update-popup .popup-content {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .update-popup .popup-close {
+            display: block;
+            margin: 0 auto;
+            padding: 6px 20px;
+            background: var(--skill-bg);
+            color: var(--skill-text);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        .update-popup .popup-close:hover {
+            background: var(--h2-color);
+            color: #fff;
+            transform: scale(1.05);
+        }
+        /* 新增：弹窗遮罩 */
+        .popup-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .popup-mask.show {
+            opacity: 1;
+            pointer-events: all;
+        }
         .theme-tip {
             position: fixed;
             top: 20px;
@@ -114,7 +190,6 @@
             border-radius: 13px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            /* 增加点击区域 */
             touch-action: manipulation;
         }
         .toggle-circle {
@@ -145,7 +220,6 @@
             background: var(--skill-bg);
             text-decoration: none;
         }
-        /* 核心：容器悬浮效果 */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -176,8 +250,7 @@
             margin: 20px 0;
             box-shadow: 0 2px 6px rgba(251, 114, 153, 0.3);
             animation-fill-mode: forwards;
-            /* 增加点击反馈 */
-            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
         }
         .bilibili-btn:hover {
             background-color: var(--bilibili-hover);
@@ -236,6 +309,12 @@
             border-top: 1px solid var(--border-color);
             opacity: 0.8;
         }
+        html {
+            scroll-behavior: smooth;
+        }
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
         @media (max-width: 480px) {
             .theme-toggle-wrapper { 
                 top: 10px; 
@@ -285,10 +364,30 @@
                 padding: 6px 12px; 
                 font-size: 0.8rem; 
             }
+            .update-popup {
+                padding: 20px 25px;
+            }
+            .update-popup .popup-title {
+                font-size: 1.1rem;
+            }
+            .update-popup .popup-content {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 新增：更新提示弹窗 + 遮罩 -->
+    <div class="popup-mask" id="popupMask"></div>
+    <div class="update-popup" id="updatePopup">
+        <div class="popup-title">
+            <i class="fas fa-sync-alt" aria-hidden="true"></i>
+            本次更新
+        </div>
+        <div class="popup-content">修复了一些已知问题</div>
+        <button class="popup-close" id="popupClose">知道了</button>
+    </div>
+
     <div class="theme-tip" id="themeTip"></div>
     <div class="theme-toggle-wrapper" aria-label="切换主题模式">
         <i class="fas fa-sun theme-icon" aria-hidden="true"></i>
@@ -299,7 +398,6 @@
     </div>
     <main class="container">
         <h1>关于我</h1>
-        <!-- 补充B站示例链接，可替换为实际链接 -->
         <a href="https://www.bilibili.com/" target="_blank" class="bilibili-btn" aria-label="访问哔哩哔哩">
             <i class="fab fa-bilibili bilibili-icon" aria-hidden="true"></i>
             娱乐一下吧
@@ -341,67 +439,112 @@
         const htmlRoot = document.documentElement;
         const themeTip = document.getElementById('themeTip');
         const biliBtn = document.querySelector('.bilibili-btn');
+        // 新增：弹窗相关元素
+        const updatePopup = document.getElementById('updatePopup');
+        const popupMask = document.getElementById('popupMask');
+        const popupClose = document.getElementById('popupClose');
         
         // 显示提示文字
         const showTip = (text) => {
             themeTip.textContent = text;
-            themeTip.classList.添加('show'); // 修复：中文"添加"改为英文add
+            themeTip.classList.add('show');
             setTimeout(() => {
-                themeTip.classList.移除('show'); // 修复：中文"移除"改为英文remove
-                // 延迟清除文字，避免闪屏
+                themeTip.classList.remove('show');
                 setTimeout(() => themeTip.textContent = '', 300);
             }, 1500);
         };
 
+        // 新增：显示更新弹窗
+        const showUpdatePopup = () => {
+            updatePopup.classList.add('show');
+            popupMask.classList.add('show');
+        };
+        // 新增：隐藏更新弹窗
+        const hideUpdatePopup = () => {
+            updatePopup.classList.remove('show');
+            popupMask.classList.remove('show');
+            // 本地存储标记，关闭后不再显示
+            localStorage.setItem('hasSeenUpdate', 'true');
+        };
+
         // 初始化主题
         const initTheme = () => {
-            const savedTheme = localStorage.getItem('pageTheme') || 'light';
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('pageTheme') || (systemDark ? 'dark' : 'light');
+            
             htmlRoot.setAttribute('data-theme', savedTheme);
             if (savedTheme === 'dark') {
-                toggleSwitch.classList.添加('active'); // 修复：中文"添加"改为英文add
+                toggleSwitch.classList.add('active');
                 toggleSwitch.setAttribute('aria-checked', 'true');
             } else {
                 toggleSwitch.setAttribute('aria-checked', 'false');
             }
-            // 设置B站按钮阴影
             updateBiliBtnShadow(savedTheme);
         };
 
-        // 更新B站按钮阴影
-        const updateBiliBtnShadow = (主题) => { // 修复：中文"主题"改为英文theme
-            biliBtn.style.boxShadow = 主题 === 'dark' 
+        const updateBiliBtnShadow = (theme) => {
+            biliBtn.style.boxShadow = theme === 'dark' 
                 ? '0 2px 6px rgba(217, 87, 124, 0.3)' 
                 : '0 2px 6px rgba(251, 114, 153, 0.3)';
         };
 
-        // 切换主题
         const toggleTheme = () => {
             const currentTheme = htmlRoot.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            // 更新DOM属性
             htmlRoot.setAttribute('data-theme', newTheme);
             localStorage.setItem('pageTheme', newTheme);
             toggleSwitch.classList.toggle('active', newTheme === 'dark');
             toggleSwitch.setAttribute('aria-checked', newTheme === 'dark');
             
-            // 显示提示
             showTip(newTheme === 'dark' ? '已开启深色模式' : '已开启浅色模式');
-            
-            // 更新按钮阴影
             updateBiliBtnShadow(newTheme);
         };
 
+        // 监听系统主题变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('pageTheme')) {
+                const newTheme = e.matches ? 'dark' : 'light';
+                htmlRoot.setAttribute('data-theme', newTheme);
+                toggleSwitch.classList.toggle('active', newTheme === 'dark');
+                toggleSwitch.setAttribute('aria-checked', newTheme === 'dark');
+                updateBiliBtnShadow(newTheme);
+                showTip(newTheme === 'dark' ? '已跟随系统开启深色模式' : '已跟随系统开启浅色模式');
+            }
+        });
+
         // 页面加载完成后初始化
-        window.addEventListener('DOMContentLoaded', initTheme);
-        // 绑定切换事件
-        toggleSwitch.addEventListener('click', toggleTheme);
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            // 新增：判断是否显示更新弹窗（未看过则显示）
+            const hasSeenUpdate = localStorage.getItem('hasSeenUpdate');
+            if (!hasSeenUpdate) {
+                // 轻微延迟，让页面加载更顺滑
+                setTimeout(showUpdatePopup, 300);
+            }
+        });
         
-        // 防止移动端双击缩放
+        // 绑定主题切换事件
+        toggleSwitch.addEventListener('click', toggleTheme);
         toggleSwitch.addEventListener('touchstart', (e) => {
             e.preventDefault();
             toggleTheme();
         }, { passive: false });
+
+        // 新增：绑定弹窗关闭事件
+        popupClose.addEventListener('click', hideUpdatePopup);
+        // 新增：点击遮罩也能关闭弹窗
+        popupMask.addEventListener('click', hideUpdatePopup);
+        // 新增：按ESC键关闭弹窗
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && updatePopup.classList.contains('show')) {
+                hideUpdatePopup();
+            }
+        });
+
+        biliBtn.addEventListener('click', function(e) {
+            console.log('B站按钮被点击了');
+        });
     </script>
 </内容>
 </html>
